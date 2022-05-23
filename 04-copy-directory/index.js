@@ -9,23 +9,17 @@ const path = require('path');
 const files = path.join(__dirname, 'files');
 const files_copy = path.join(__dirname, 'files-copy');
 
-function createFolder (){
-  if(files_copy === true){
+function copyDir (){
+
     fs.rm(files_copy, {force: true, recursive: true}, (err) => {
       if(err){ console.error(err);}
-    });
-  } else {
-    fs.mkdir(files_copy, { recursive: true }, (err) => {
-      if (err) throw err;
-    });
-  }
+      fs.mkdir(files_copy, { recursive: true }, (err) => {
+        if (err) throw err;
+        fs.cp(files, files_copy, {recursive: true}, err => {
+          if(err) throw err; 
+        });
+      });
+    });  
 }
 
-function copyDir (){
-fs.cp(files, files_copy, {recursive: true}, err => {
-  if(err) throw err; 
-});
-}
-
-createFolder();
 copyDir();
